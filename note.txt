@@ -1,0 +1,18 @@
+Обозначение структур по номерам:
+00 - Empty
+01 - Extension
+02 - Road
+03 - Wall
+04 - Rampart
+05 - Tower
+06 - Container
+07 - Storage
+08 - Link
+09 - Extractor
+10 - Lab
+11 - Factory
+12 - Spawn
+13 - Observer
+14 - Power Spawn
+15 - Nuker
+16 - Terminal
