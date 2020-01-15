@@ -19,15 +19,25 @@ module.exports = {
             });
         }
 
-        let minRange = 100;
-        let nearSource;
-        freeSources.forEach(freeSource => {
-            if (minRange > creep.pos.getRangeTo(freeSource)) {
-                minRange = creep.pos.getRangeTo(freeSource);
-                nearSource = freeSource;
-            }
-        });
+        let nearSource = getMinRange(creep, freeSources);
 
         return nearSource.id;
+    },
+
+    // Вибирает таргет до которого наименьшее растояние
+    getMinRange: function(creep, targets) {
+        getMinRange(creep, targets);
     }
 };
+
+function getMinRange(creep, targets) {
+    let minRange = 100;
+    let nearTarget;
+    targets.forEach(target => {
+        if (minRange > creep.pos.getRangeTo(target)) {
+            minRange = creep.pos.getRangeTo(target);
+            nearTarget = target;
+        }
+    });
+    return nearTarget;
+}
