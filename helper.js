@@ -6,5 +6,28 @@ module.exports = {
             if (!spawn.spawning) return spawn;
         });
         return spawn[0];
+    },
+
+    // Функция поиска свободного ближайшего источника энергии
+    getSuitableSource: function(creep, room) {
+        let sources = room.find(FIND_SOURCES);
+        let freeSources = [];
+        let creeps = _.filter(Game.creeps); //TODO Заменить на фильтрацию крипов в конкретной комнате
+        for (let i in sources) {
+            creeps.forEach(cre => {
+                if (cre.memory.source != sources[i].id) freeSources[i] = sources[i];
+            });
+        }
+
+        let minRange = 100;
+        let nearSource;
+        freeSources.forEach(freeSource => {
+            if (minRange > creep.pos.getRangeTo(freeSource)) {
+                minRange = creep.pos.getRangeTo(freeSource);
+                nearSource = freeSource;
+            }
+        });
+
+        return nearSource.id;
     }
 };
