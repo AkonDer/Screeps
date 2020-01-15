@@ -26,7 +26,7 @@ module.exports = {
 
     // Вибирает таргет до которого наименьшее растояние
     getMinRange: function(creep, targets) {
-        getMinRange(creep, targets);
+        return getMinRange(creep, targets);
     }
 };
 
