@@ -1,6 +1,7 @@
 // Все действия касаемые стадии 1
-var creepCreate = require("creep.create");
+let creepCreate = require("creep.create");
 let appointToWork = require("creep.appoint_to_work");
+let goWork = require("creep.go_work");
 
 module.exports = function(room) {
     // Создать первых крипов
@@ -9,7 +10,10 @@ module.exports = function(room) {
         miner: [1, { WORK: 1, MOVE: 1 }]
     });
 
-    //Назначить крипов на работу
+    // Назначить крипов на работу
     let creeps = _.filter(Game.creeps); //TODO Заменить на фильтрацию крипов в конкретной комнате
-    appointToWork(creeps);
+    appointToWork(creeps, room);
+
+    // Отправить крипов работать
+    goWork(creeps, room);
 };
