@@ -17,15 +17,32 @@ module.exports = function(creeps, room) {
             let targets = room.find(FIND_DROPPED_RESOURCES);
             let target = helper.getMinRange(creep, targets);
 
-            if (creep.pickup(target)) {
-                if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target, {
-                        visualizePathStyle: { stroke: "#ffffff" }
-                    });
-                }
+            if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
+                creep.moveTo(target, {
+                    visualizePathStyle: { stroke: "#ffffff" }
+                });
             } else {
                 var spawn = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } })[0];
                 if (creep.transfer(spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(spawn, {
+                        visualizePathStyle: { stroke: "#ffffff" }
+                    });
+                }
+            }
+        }
+
+        // Если крип апгрейдер отправить апгейдить
+        if (creep.memory.work.upgrade) {
+            let targets = room.find(FIND_DROPPED_RESOURCES);
+            let target = helper.getMinRange(creep, targets);
+
+            if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
+                creep.moveTo(target, {
+                    visualizePathStyle: { stroke: "#ffffff" }
+                });
+            } else {
+                var spawn = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_CONTROLLER } })[0];
+                if (creep.upgradeController(spawn) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(spawn, {
                         visualizePathStyle: { stroke: "#ffffff" }
                     });
