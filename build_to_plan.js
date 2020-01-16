@@ -17,7 +17,9 @@ function buildRoad(target, plan, room) {
         }
     }
 
-    if (!room.memory.roads) {
+    if (!room.memory.roads) room.memory.roads = [];
+
+    if (!room.memory.roads.some(element => element.name == target)) {
         let y = 0;
         for (let x = 0; x < plan[y].length; x++) countCoord(x, y);
         let x = 12;

@@ -31,6 +31,7 @@ module.exports = {
 
     // Добавить все источники энергии в память комнаты
     addSourceToMemory: function(room) {
+        //TODO Работает не правильно необходимо исправить
         let sources = room.find(FIND_SOURCES);
         const pos = room.getPositionAt(room.memory.centerBase.x, room.memory.y);
         let ranges = sources.map(source => {
