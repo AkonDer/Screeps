@@ -2,13 +2,17 @@
 let creepCreate = require("creep.create");
 let appointToWork = require("creep.appoint_to_work");
 let goWork = require("creep.go_work");
+let helper = require("helper");
 
 module.exports = function(room) {
-    // Записать координаты центра Базы
+    // Записать в память комнаты координаты центра Базы
+    let spawn = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } })[0];
     if (!room.memory.centerBase) {
-        let spawn = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } })[0];
         room.memory.centerBase = { x: spawn.pos.x + 1, y: spawn.pos.y + 2 };
     }
+
+    // Записать в память комнаты все источники энергии
+    helper.addSourceToMemory(room);
 
     // Создать первых крипов
     creepCreate(room, {
@@ -17,6 +21,7 @@ module.exports = function(room) {
         miner: [1, { WORK: 2, MOVE: 1 }]
     });
 
+    // когда создано два перевозчика создать еще одного майнера
     if (_.filter(Game.creeps, creep => creep.memory.role == "carrier").length >= 2) {
         creepCreate(room, {
             miner: [2, { WORK: 2, MOVE: 1 }]
