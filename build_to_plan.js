@@ -19,6 +19,7 @@ function findDirectionForRoad(plan, room) {
         }
     });
 
+    //Перебор всех значений в массиве
     // for (let y in plan) {
     //     console.log("------------------------------------------");
     //     for (let x in plan[y]) {
