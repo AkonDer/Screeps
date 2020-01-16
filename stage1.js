@@ -6,13 +6,25 @@ let helper = require("helper");
 
 module.exports = function(room) {
     // Записать в память комнаты координаты центра Базы
-    let spawn = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } })[0];
     if (!room.memory.centerBase) {
-        room.memory.centerBase = { x: spawn.pos.x + 1, y: spawn.pos.y + 2 };
+        let spawn = room.find(FIND_MY_SPAWNS)[0];
+        if (!room.memory.centerBase) {
+            room.memory.centerBase = { x: spawn.pos.x + 1, y: spawn.pos.y + 2 };
+        }
     }
 
+    console.log(room.memory.centerBase.x + " " + room.memory.centerBase.y);
     // Записать в память комнаты все источники энергии
-    helper.addSourceToMemory(room);
+    if (room.find(FIND_MY_SPAWNS)) {
+        if (!room.memory.sources) {
+            let sources = room.find(FIND_SOURCES);
+            const pos = room.getPositionAt(room.memory.centerBase.x, room.memory.centerBase.y);
+            let ranges = sources.map(source => {
+                return [pos.getRangeTo(source), source.id];
+            });
+            room.memory.sources = ranges.sort();
+        }
+    }
 
     // Создать первых крипов
     creepCreate(room, {
