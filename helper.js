@@ -27,6 +27,16 @@ module.exports = {
     // Вибирает таргет до которого наименьшее растояние
     getMinRange: function(creep, targets) {
         return getMinRange(creep, targets);
+    },
+
+    // Добавить все источники энергии в память комнаты
+    addSourceToMemory: function(room) {
+        let sources = room.find(FIND_SOURCES);
+        const pos = room.getPositionAt(room.memory.centerBase.x, room.memory.y);
+        let ranges = sources.map(source => {
+            return [source.pos.getRangeTo(pos), source.id];
+        });
+        room.memory.sources = ranges.sort();
     }
 };
 
