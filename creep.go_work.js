@@ -1,5 +1,4 @@
 let helper = require("helper");
-let buildToPlan = require("build_to_plan");
 let plan = require("plan");
 
 module.exports = function(creeps, room) {
@@ -56,7 +55,6 @@ module.exports = function(creeps, room) {
         if (creep.memory.work.builds) {
             let targets = room.find(FIND_DROPPED_RESOURCES);
             let target = helper.getMinRange(creep, targets);
-            buildToPlan(plan, room); // Строить по плану
 
             if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
                 creep.moveTo(target, {

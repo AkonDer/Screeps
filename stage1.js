@@ -25,7 +25,7 @@ module.exports = function(room) {
 
     // Создать первых крипов
     creepCreate(room, {
-        upgraider: [3, { WORK: 2, CARRY: 1, MOVE: 1 }],
+        upgraider: [2, { WORK: 2, CARRY: 1, MOVE: 1 }],
         carrier: [2, { CARRY: 1, MOVE: 1 }],
         miner: [1, { WORK: 2, MOVE: 1 }]
     });
