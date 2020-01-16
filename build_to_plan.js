@@ -9,17 +9,16 @@ module.exports = function(plan, room) {
 };
 
 function buildRoad(target, plan, room) {
-    let listPorts = []; // Архив всех дорожных портов
-    function countCoord(x, y) {
-        if (plan[y][x] == "02") {
-            const posRoad = new RoomPosition(x + room.memory.centerBase.x - 6, y + room.memory.centerBase.y - 5, room.name);
-            listPorts.push([posRoad.getRangeTo(target), x + room.memory.centerBase.x - 6, y + room.memory.centerBase.y - 5]);
-        }
-    }
-
     if (!room.memory.roads) room.memory.roads = [];
+    if (!room.memory.roads.some(element => element.name == target.id)) {
+        let listPorts = []; // Архив всех дорожных портов
+        function countCoord(x, y) {
+            if (plan[y][x] == "02") {
+                const posRoad = new RoomPosition(x + room.memory.centerBase.x - 6, y + room.memory.centerBase.y - 5, room.name);
+                listPorts.push([posRoad.getRangeTo(target), x + room.memory.centerBase.x - 6, y + room.memory.centerBase.y - 5]);
+            }
+        }
 
-    if (!room.memory.roads.some(element => element.name == target)) {
         let y = 0;
         for (let x = 0; x < plan[y].length; x++) countCoord(x, y);
         let x = 12;
