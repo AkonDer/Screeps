@@ -33,7 +33,7 @@ module.exports = function(creeps, room) {
             }
         }
 
-        // Если крип апгрейдер отправить апгейдить
+        // Если крип апгрейдер отправить апгрейдить
         if (creep.memory.work.upgrade) {
             let targets = room.find(FIND_DROPPED_RESOURCES);
             let target = helper.getMinRange(creep, targets);

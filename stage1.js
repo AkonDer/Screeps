@@ -12,10 +12,16 @@ module.exports = function(room) {
 
     // Создать первых крипов
     creepCreate(room, {
-        upgraider: [2, { WORK: 2, CARRY: 1, MOVE: 1 }],
+        upgraider: [3, { WORK: 2, CARRY: 1, MOVE: 1 }],
         carrier: [2, { CARRY: 1, MOVE: 1 }],
         miner: [1, { WORK: 2, MOVE: 1 }]
     });
+
+    if (_.filter(Game.creeps, creep => creep.memory.role == "carrier").length >= 2) {
+        creepCreate(room, {
+            miner: [2, { WORK: 2, MOVE: 1 }]
+        });
+    }
 
     // Назначить крипов на работу
     let creeps = _.filter(Game.creeps); //TODO Заменить на фильтрацию крипов в конкретной комнате

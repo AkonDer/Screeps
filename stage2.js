@@ -19,7 +19,7 @@ module.exports = function(room) {
     creepCreate(room, {
         builder: [4, { WORK: 2, CARRY: 1, MOVE: 1 }],
         carrier: [2, { CARRY: 1, MOVE: 1 }],
-        miner: [1, { WORK: 2, MOVE: 1 }]
+        miner: [2, { WORK: 2, MOVE: 1 }]
     });
 
     // Назначить крипов на работу
