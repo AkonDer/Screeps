@@ -1,11 +1,8 @@
 let helper = require("helper");
 
 module.exports = function(plan, room) {
-    // определяем ближайший источник энергии от центра
-    const posCenter = room.getPositionAt(room.memory.centerBase.x, room.memory.centerBase.y);
-    let nearSource = posCenter.findClosestByPath(FIND_SOURCES);
-    // Строим туда дорогу
-    buildRoad(nearSource, plan, room);
+    // Строим дорогу до ближайшего источника энергии
+    buildRoad(Game.getObjectById(room.memory.sources[0][1]), plan, room);
 };
 
 function buildRoad(target, plan, room) {
@@ -39,7 +36,7 @@ function buildRoad(target, plan, room) {
         }
 
         // Добавление в память комнаты информации о дороге
-        room.memory.roads = [];
+        if (!room.memory.roads) room.memory.roads = [];
         room.memory.roads.push({ name: target.id, xBase: listPorts[0][1], yBase: listPorts[0][2] });
     }
 }

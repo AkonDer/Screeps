@@ -13,17 +13,14 @@ module.exports = function(room) {
         }
     }
 
-    console.log(room.memory.centerBase.x + " " + room.memory.centerBase.y);
     // Записать в память комнаты все источники энергии
-    if (room.find(FIND_MY_SPAWNS)) {
-        if (!room.memory.sources) {
-            let sources = room.find(FIND_SOURCES);
-            const pos = room.getPositionAt(room.memory.centerBase.x, room.memory.centerBase.y);
-            let ranges = sources.map(source => {
-                return [pos.getRangeTo(source), source.id];
-            });
-            room.memory.sources = ranges.sort();
-        }
+    if (!room.memory.sources) {
+        let sources = room.find(FIND_SOURCES);
+        const pos = room.getPositionAt(room.memory.centerBase.x, room.memory.centerBase.y);
+        let ranges = sources.map(source => {
+            return [pos.getRangeTo(source), source.id];
+        });
+        room.memory.sources = ranges.sort();
     }
 
     // Создать первых крипов
