@@ -1,4 +1,6 @@
 let helper = require("helper");
+let buildToPlan = require("build_to_plan");
+let plan = require("plan");
 
 module.exports = function(creeps, room) {
     creeps.forEach(creep => {
@@ -41,9 +43,30 @@ module.exports = function(creeps, room) {
                     visualizePathStyle: { stroke: "#ffffff" }
                 });
             } else {
-                var spawn = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_CONTROLLER } })[0];
-                if (creep.upgradeController(spawn) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(spawn, {
+                var targ = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_CONTROLLER } })[0];
+                if (creep.upgradeController(targ) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targ, {
+                        visualizePathStyle: { stroke: "#ffffff" }
+                    });
+                }
+            }
+        }
+
+        // Если крип строитель отправить строить
+        if (creep.memory.work.builds) {
+            let targets = room.find(FIND_DROPPED_RESOURCES);
+            let target = helper.getMinRange(creep, targets);
+            buildToPlan(plan, room); // Строить по плану
+
+            if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
+                creep.moveTo(target, {
+                    visualizePathStyle: { stroke: "#ffffff" }
+                });
+            } else {
+                var targs = room.find(FIND_CONSTRUCTION_SITES);
+                let targ = helper.getMinRange(creep, targs);
+                if (creep.build(targ) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(targ, {
                         visualizePathStyle: { stroke: "#ffffff" }
                     });
                 }

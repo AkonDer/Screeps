@@ -4,6 +4,12 @@ let appointToWork = require("creep.appoint_to_work");
 let goWork = require("creep.go_work");
 
 module.exports = function(room) {
+    // Записать координаты центра Базы
+    if (!room.memory.centerBase) {
+        let spawn = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } })[0];
+        room.memory.centerBase = { x: spawn.pos.x + 1, y: spawn.pos.y + 2 };
+    }
+
     // Создать первых крипов
     creepCreate(room, {
         upgraider: [2, { WORK: 2, CARRY: 1, MOVE: 1 }],
