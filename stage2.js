@@ -8,10 +8,11 @@ module.exports = function(room) {
         filter: structure => {
             return structure.structureType == STRUCTURE_EXTENSION;
         }
-    }).length; // Количество расширений
+    }).length;
 
     // Если расширений 5 то произвести следующие действия
     if (extQuantity == 5) {
         stage2_2(room);
     }
 };
+function findExtentionQuantity() {}
