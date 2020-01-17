@@ -25,7 +25,7 @@ module.exports = function(room) {
 
     // Создать первых крипов
     creepCreate(room, {
-        upgraider: [2, { WORK: 2, CARRY: 1, MOVE: 1 }],
+        upgraider: [3, { WORK: 2, CARRY: 1, MOVE: 1 }],
         carrier: [2, { CARRY: 1, MOVE: 1 }],
         miner: [1, { WORK: 2, MOVE: 1 }]
     });
@@ -37,8 +37,18 @@ module.exports = function(room) {
         });
     }
 
+    // Назначить всех майнеров на ближайший источник
+    let miners = room.find(FIND_MY_CREEPS, {
+        filter: creep => {
+            return creep.memory.role == "miner";
+        }
+    });
+    miners.forEach(miner => {
+        miner.memory.source = room.memory.sources[0][1];
+    });
+
     // Назначить крипов на работу
-    let creeps = _.filter(Game.creeps); //TODO Заменить на фильтрацию крипов в конкретной комнате
+    let creeps = room.find(FIND_MY_CREEPS); //TODO Заменить на фильтрацию крипов в конкретной комнате
     appointToWork(creeps, room);
 
     // Отправить крипов работать
