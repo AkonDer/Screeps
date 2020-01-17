@@ -24,8 +24,14 @@ module.exports = function(room) {
     build.buildContainerToSource(room);
 
     // Построить дорогу к ближайшему источнику
-    build.buildRoad(Game.getObjectById(room.memory.sources[0][1]), plan, room);
+    // build.buildRoad(Game.getObjectById(room.memory.sources[0][1]), plan, room);
 
     // Проверить состояние майнеров и если он умирает то стереть информацию о нем из памяти комнаты
-    console.log(helper.findCreeps("miner", room));
+    let miners = helper.findCreeps("miner", room);
+    miners.forEach(miner => {
+        if (miner.ticksToLive == 1) {
+            let sourceContainer = room.memory.sourceContainers.find(sourceCont => sourceCont.idCreep == miner.id);
+            if (sourceContainer) room.memory.sourceContainers.idCreep = sourceContainer.idCreep;
+        }
+    });
 };

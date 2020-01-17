@@ -5,11 +5,22 @@ module.exports = function(creeps, room) {
     creeps.forEach(creep => {
         // Если крип типа майнер отправить копать энергию
         if (creep.memory.work.mine) {
-            let target = Game.getObjectById(creep.memory.source);
-            if (creep.harvest(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(target, {
-                    visualizePathStyle: { stroke: "#ffffff" }
-                });
+            if (room.memory.sourceContainers) {
+                let container = room.memory.sourceContainer.find(sourceCont => sourceCont.idCreep == 0);
+                console.log(1);
+                let target = Game.getObjectById(creep.memory.source);
+                if (creep.harvest(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(container.x, container.y, {
+                        visualizePathStyle: { stroke: "#ffffff" }
+                    });
+                }
+            } else {
+                let target = Game.getObjectById(creep.memory.source);
+                if (creep.harvest(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {
+                        visualizePathStyle: { stroke: "#ffffff" }
+                    });
+                }
             }
         }
 
