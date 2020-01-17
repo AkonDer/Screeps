@@ -37,7 +37,7 @@ module.exports = function(room) {
         });
     }
 
-    // Назначить всех майнеров на ближайший источник
+    // Отправить всех майнеров на ближайший источник
     let miners = room.find(FIND_MY_CREEPS, {
         filter: creep => {
             return creep.memory.role == "miner";
