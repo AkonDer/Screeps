@@ -3,15 +3,12 @@ let appointToWork = require("creep.appoint_to_work");
 let goWork = require("creep.go_work");
 let build = require("build_to_plan");
 let plan = require("plan");
+let helper = require("helper");
 
 module.exports = function(room) {
     // Убить апдейтеров они пока не нужны
     if (!room.memory.startStage2) {
-        let upgraiders = room.find(FIND_MY_CREEPS, {
-            filter: creep => {
-                return creep.memory.role == "upgraider";
-            }
-        });
+        let upgraiders = helper.findCreeps("upgraider", room);
         upgraiders.forEach(upgraider => {
             upgraider.suicide();
         });
@@ -30,11 +27,7 @@ module.exports = function(room) {
     appointToWork(creeps, room);
 
     // Отправить всех майнеров на ближайший источник
-    let miners = room.find(FIND_MY_CREEPS, {
-        filter: creep => {
-            return creep.memory.role == "miner";
-        }
-    });
+    let miners = helper.findCreeps("miner", room);
     miners.forEach(miner => {
         miner.memory.source = room.memory.sources[0][1];
     });

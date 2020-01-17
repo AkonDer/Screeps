@@ -57,13 +57,17 @@ module.exports = {
     },
 
     buildContainerToSource: function(room) {
-        let posBase = room.getPositionAt(room.memory.centerBase.x, room.memory.centerBase.y);
-        let sources = room.find(FIND_SOURCES);
-        sources.forEach(source => {
-            let path = source.pos.findPathTo(posBase, { ignoreCreeps: true });
-            room.createConstructionSite(path[0].x, path[0].y, STRUCTURE_CONTAINER);
-            if (!room.memory.sourceContainer) room.memory.sourceContainer = [];
-            room.memory.sourceContainer.push({ idSource: source.id, x: path[0].x, y: path[0].y });
-        });
+        if (!room.memory.sourceContainer) {
+            let posBase = room.getPositionAt(room.memory.centerBase.x, room.memory.centerBase.y);
+            let sources = room.find(FIND_SOURCES);
+            sources.forEach(source => {
+                if (!room.memory.sourceContainer) room.memory.sourceContainer = [];
+                if (!room.memory.sourceContainer.some(element => element.idSource == source.id)) {
+                    let path = source.pos.findPathTo(posBase, { ignoreCreeps: true });
+                    room.createConstructionSite(path[0].x, path[0].y, STRUCTURE_CONTAINER);
+                    room.memory.sourceContainer.push({ idSource: source.id, idCreep: 0, x: path[0].x, y: path[0].y });
+                }
+            });
+        }
     }
 };

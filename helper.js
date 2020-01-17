@@ -6,5 +6,14 @@ module.exports = {
             if (!spawn.spawning) return spawn;
         });
         return spawn[0];
+    },
+
+    //Найти всех крипов определенного типа в комнате
+    findCreeps: function(role, room) {
+        return room.find(FIND_MY_CREEPS, {
+            filter: creep => {
+                return creep.memory.role == role;
+            }
+        });
     }
 };

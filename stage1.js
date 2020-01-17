@@ -31,24 +31,14 @@ module.exports = function(room) {
     });
 
     // когда создано два перевозчика создать еще одного майнера
-    if (
-        room.find(FIND_MY_CREEPS, {
-            filter: creep => {
-                return creep.memory.role == "carrier";
-            }
-        }).length >= 2
-    ) {
+    if (helper.findCreeps("carrier", room).length >= 2) {
         creepCreate(room, {
             miner: [2, { WORK: 2, MOVE: 1 }]
         });
     }
 
     // Отправить всех майнеров на ближайший источник
-    let miners = room.find(FIND_MY_CREEPS, {
-        filter: creep => {
-            return creep.memory.role == "miner";
-        }
-    });
+    let miners = helper.findCreeps("miner", room);
     miners.forEach(miner => {
         miner.memory.source = room.memory.sources[0][1];
     });
