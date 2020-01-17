@@ -36,7 +36,7 @@ module.exports = {
         }
     },
     // Функция строительства расширений
-    buildExtention: function(plan, room) {
+    buildExtention: function(quantity, plan, room) {
         let allExst = [];
         for (let y = 0; y < plan.length; y++) {
             for (let x = 0; x < plan[y].length; x++) {
@@ -47,7 +47,7 @@ module.exports = {
             }
         }
         allExst = allExst.sort();
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < quantity; i++) {
             room.createConstructionSite(
                 allExst[i][1] + room.memory.centerBase.x - 6,
                 allExst[i][2] + room.memory.centerBase.y - 5,
