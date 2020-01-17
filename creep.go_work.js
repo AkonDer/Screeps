@@ -54,7 +54,7 @@ module.exports = function(creeps, room) {
         // Если крип строитель отправить строить
         if (creep.memory.work.builds) {
             let targets = room.find(FIND_DROPPED_RESOURCES);
-            let target = creep.pos.pos.findClosestByPath(targets);
+            let target = creep.pos.findClosestByPath(targets);
 
             if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
                 creep.moveTo(target, {
