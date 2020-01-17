@@ -13,19 +13,26 @@ module.exports = function(creeps, room) {
             }
         }
 
-        // Если крип типа carry отправить возить упавшую энергию
+        // Если крип типа carry возить энергию
         if (creep.memory.work.carry) {
-            let targets = room.find(FIND_DROPPED_RESOURCES);
-            let target = creep.pos.findClosestByPath(targets);
+            let target = findDropRes(room);
 
             if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
                 creep.moveTo(target, {
                     visualizePathStyle: { stroke: "#ffffff" }
                 });
             } else {
-                var spawn = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_SPAWN } })[0];
-                if (creep.transfer(spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(spawn, {
+                let energeBoxs = room.find(FIND_STRUCTURES, {
+                    filter: structure => {
+                        return (
+                            (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+                            structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
+                        );
+                    }
+                });
+                let energeBox = creep.pos.findClosestByPath(energeBoxs);
+                if (creep.transfer(energeBox, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(energeBox, {
                         visualizePathStyle: { stroke: "#ffffff" }
                     });
                 }
@@ -34,8 +41,7 @@ module.exports = function(creeps, room) {
 
         // Если крип апгрейдер отправить апгрейдить
         if (creep.memory.work.upgrade) {
-            let targets = room.find(FIND_DROPPED_RESOURCES);
-            let target = creep.pos.findClosestByPath(targets);
+            let target = findDropRes(room);
 
             if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
                 creep.moveTo(target, {
@@ -53,8 +59,7 @@ module.exports = function(creeps, room) {
 
         // Если крип строитель отправить строить
         if (creep.memory.work.builds) {
-            let targets = room.find(FIND_DROPPED_RESOURCES);
-            let target = creep.pos.findClosestByPath(targets);
+            let target = findDropRes(room);
 
             if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
                 creep.moveTo(target, {
@@ -72,3 +77,17 @@ module.exports = function(creeps, room) {
         }
     });
 };
+
+// Поиск упавших ресурсов по принципу где больше
+function findDropRes(room) {
+    let dropReses = room.find(FIND_DROPPED_RESOURCES);
+    let target;
+    let amountMax = 0;
+    dropReses.forEach(dropRes => {
+        if (dropRes.amount > amountMax) {
+            target = dropRes;
+            amountMax = dropRes.amount;
+        }
+    });
+    return target;
+}

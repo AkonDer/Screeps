@@ -25,15 +25,21 @@ module.exports = function(room) {
 
     // Создать первых крипов
     creepCreate(room, {
-        upgraider: [2, { WORK: 2, CARRY: 1, MOVE: 1 }],
-        carrier: [2, { CARRY: 1, MOVE: 1 }],
+        upgraider: [3, { WORK: 2, CARRY: 1, MOVE: 1 }],
+        carrier: [3, { CARRY: 1, MOVE: 1 }],
         miner: [1, { WORK: 2, MOVE: 1 }]
     });
 
     // когда создано два перевозчика создать еще одного майнера
-    if (_.filter(Game.creeps, creep => creep.memory.role == "carrier").length >= 2) {
+    if (
+        room.find(FIND_MY_CREEPS, {
+            filter: creep => {
+                return creep.memory.role == "carrier";
+            }
+        }).length >= 2
+    ) {
         creepCreate(room, {
-            miner: [3, { WORK: 2, MOVE: 1 }]
+            miner: [2, { WORK: 2, MOVE: 1 }]
         });
     }
 

@@ -18,10 +18,10 @@ module.exports = function(room) {
         room.memory.startStage2 = true;
     }
 
-    // Создать первых крипов
+    // Создать крипов
     creepCreate(room, {
-        builder: [4, { WORK: 2, CARRY: 1, MOVE: 1 }],
-        carrier: [2, { CARRY: 1, MOVE: 1 }],
+        builder: [8, { WORK: 2, CARRY: 1, MOVE: 1 }],
+        carrier: [3, { CARRY: 1, MOVE: 1 }],
         miner: [3, { WORK: 2, MOVE: 1 }]
     });
 
