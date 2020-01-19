@@ -31,12 +31,15 @@ module.exports = function(room) {
     miners.forEach(miner => {
         if (miner.ticksToLive == 1) {
             let sourceContainer = room.memory.sourceContainers.find(sourceCont => sourceCont.idCreep == miner.id);
-            if (sourceContainer) room.memory.sourceContainers.idCreep = sourceContainer.idCreep;
+            if (sourceContainer) room.memory.sourceContainers.idCreep = 0;
         }
         // Если есть майнеры не назначенные для работы на контейнере, то найти их и назначить на соответствующий контейнер
         if ((miner.memory.source = 0)) {
             let sourceContainer = room.memory.sourceContainers.find(sourceCont => sourceCont.idCreep == 0);
-            if (sourceContainer) miner.memory.source = sourceContainer.idSource;
+            if (sourceContainer) {
+                miner.memory.source = sourceContainer.id;
+                miner.memory.container = sourceContainer.id;
+            }
         }
     });
 };

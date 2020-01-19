@@ -7,15 +7,12 @@ module.exports = function(creeps, room) {
         if (creep.memory.work.mine) {
             //если начальная стадия и нет контейнера то просто копать на землю иначе идти к контейнеру и копать в него
             if (room.memory.sourceContainers) {
-                let container = room.memory.sourceContainer.find(sourceCont => sourceCont.idCreep == 0);
-                let target = Game.getObjectById(creep.memory.source);
-                if (creep.harvest(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                if (creep.harvest(Game.getObjectById(creep.memory.container), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(container.x, container.y);
                 }
             } else {
-                let target = Game.getObjectById(creep.memory.source);
-                if (creep.harvest(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+                if (creep.harvest(Game.getObjectById(creep.memory.source), RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(Game.getObjectById(creep.memory.source));
                 }
             }
         }
