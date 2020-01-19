@@ -36,7 +36,7 @@ module.exports = {
         }
     },
     // Функция строительства расширений
-    buildExtention: function(plan, room) {
+    buildExtention: function(quantity, plan, room) {
         let allExst = [];
         for (let y = 0; y < plan.length; y++) {
             for (let x = 0; x < plan[y].length; x++) {
@@ -47,12 +47,27 @@ module.exports = {
             }
         }
         allExst = allExst.sort();
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < quantity; i++) {
             room.createConstructionSite(
                 allExst[i][1] + room.memory.centerBase.x - 6,
                 allExst[i][2] + room.memory.centerBase.y - 5,
                 STRUCTURE_EXTENSION
             );
+        }
+    },
+
+    buildContainerToSource: function(room) {
+        if (!room.memory.sourceContainers) {
+            let posBase = room.getPositionAt(room.memory.centerBase.x, room.memory.centerBase.y);
+            let sources = room.find(FIND_SOURCES);
+            sources.forEach(source => {
+                if (!room.memory.sourceContainers) room.memory.sourceContainers = [];
+                if (!room.memory.sourceContainers.some(element => element.idSource == source.id)) {
+                    let path = source.pos.findPathTo(posBase, { ignoreCreeps: true });
+                    room.createConstructionSite(path[0].x, path[0].y, STRUCTURE_CONTAINER);
+                    room.memory.sourceContainers.push({ idSource: source.id, idCreep: 0, x: path[0].x, y: path[0].y });
+                }
+            });
         }
     }
 };

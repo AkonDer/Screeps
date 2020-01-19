@@ -3,8 +3,12 @@ var helper = require("helper");
 
 module.exports = function(room, creepModels) {
     for (let name in creepModels) {
-        let creepTypeQuantity = _.filter(Game.creeps, creep => creep.memory.role == name); //TODO Заменить на фильтрацию крипов в конкретной комнате
-        if (creepTypeQuantity.length < creepModels[name][0]) {
+        let creepTypeQuantity = room.find(FIND_MY_CREEPS, {
+            filter: creep => {
+                return creep.memory.role == name;
+            }
+        }).length;
+        if (creepTypeQuantity < creepModels[name][0]) {
             for (let name in Memory.creeps) {
                 if (!Game.creeps[name]) {
                     delete Memory.creeps[name];

@@ -9,7 +9,6 @@ module.exports = function(creeps, room) {
 
             creep.memory.work = { mine: true };
             creep.memory.works = true;
-            creep.memory.source = helper.getSuitableSource(creep, room);
         }
         if (!creep.memory.work && creep.memory.role == "carrier") {
             // Очищаю все задания

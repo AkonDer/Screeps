@@ -1,28 +1,21 @@
-let creepCreate = require("creep.create");
-let appointToWork = require("creep.appoint_to_work");
-let goWork = require("creep.go_work");
-
-let build = require("build_to_plan");
-let plan = require("plan");
+let stage2_1 = require("stage2_1");
+let stage2_2 = require("stage2_2");
 
 module.exports = function(room) {
-    // Создать первых крипов
-    creepCreate(room, {
-        builder: [4, { WORK: 2, CARRY: 1, MOVE: 1 }],
-        carrier: [2, { CARRY: 1, MOVE: 1 }],
-        miner: [2, { WORK: 2, MOVE: 1 }]
-    });
+    if (!room.memory.endStage2_1) stage2_1(room);
 
-    // Назначить крипов на работу
-    let creeps = _.filter(Game.creeps); //TODO Заменить на фильтрацию крипов в конкретной комнате
-    appointToWork(creeps, room);
-
-    // Отправить крипов работать
-    goWork(creeps, room);
-
-    // Построить дорогу до ближайшего источника
-    build.buildRoad(Game.getObjectById(room.memory.sources[0][1]), plan, room);
-
-    // Построить расширения
-    build.buildExtention(plan, room);
+    // Если расширений 5 то произвести следующие действия
+    if (findExtentionQuantity(room) == 5) {
+        room.memory.endStage2_1 = true;
+        stage2_2(room);
+    }
 };
+
+// Нахождение количества расширений в комнате
+function findExtentionQuantity(room) {
+    return room.find(FIND_STRUCTURES, {
+        filter: structure => {
+            return structure.structureType == STRUCTURE_EXTENSION;
+        }
+    }).length;
+}

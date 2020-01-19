@@ -8,36 +8,12 @@ module.exports = {
         return spawn[0];
     },
 
-    // Функция поиска свободного ближайшего источника энергии
-    getSuitableSource: function(creep, room) {
-        let sources = room.find(FIND_SOURCES);
-        let freeSources = [];
-        let creeps = _.filter(Game.creeps); //TODO Заменить на фильтрацию крипов в конкретной комнате
-        for (let i in sources) {
-            creeps.forEach(cre => {
-                if (cre.memory.source != sources[i].id) freeSources[i] = sources[i];
-            });
-        }
-
-        let nearSource = getMinRange(creep, freeSources);
-
-        return nearSource.id;
-    },
-
-    // Вибирает таргет до которого наименьшее растояние
-    getMinRange: function(creep, targets) {
-        return getMinRange(creep, targets);
+    //Найти всех крипов определенного типа в комнате
+    findCreeps: function(role, room) {
+        return room.find(FIND_MY_CREEPS, {
+            filter: creep => {
+                return creep.memory.role == role;
+            }
+        });
     }
 };
-
-function getMinRange(creep, targets) {
-    let minRange = 100;
-    let nearTarget;
-    targets.forEach(target => {
-        if (minRange > creep.pos.getRangeTo(target)) {
-            minRange = creep.pos.getRangeTo(target);
-            nearTarget = target;
-        }
-    });
-    return nearTarget;
-}
