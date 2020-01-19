@@ -8,19 +8,14 @@ module.exports = function(creeps, room) {
             //если начальная стадия и нет контейнера то просто копать на землю иначе идти к контейнеру и копать в него
             if (room.memory.sourceContainers) {
                 let container = room.memory.sourceContainer.find(sourceCont => sourceCont.idCreep == 0);
-                console.log(1);
                 let target = Game.getObjectById(creep.memory.source);
                 if (creep.harvest(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(container.x, container.y, {
-                        visualizePathStyle: { stroke: "#ffffff" }
-                    });
+                    creep.moveTo(container.x, container.y);
                 }
             } else {
                 let target = Game.getObjectById(creep.memory.source);
                 if (creep.harvest(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target, {
-                        visualizePathStyle: { stroke: "#ffffff" }
-                    });
+                    creep.moveTo(target);
                 }
             }
         }
@@ -30,9 +25,7 @@ module.exports = function(creeps, room) {
             let target = findDropRes(room);
 
             if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
-                creep.moveTo(target, {
-                    visualizePathStyle: { stroke: "#ffffff" }
-                });
+                creep.moveTo(target);
             } else {
                 let energeBoxs = room.find(FIND_STRUCTURES, {
                     filter: structure => {
@@ -44,9 +37,7 @@ module.exports = function(creeps, room) {
                 });
                 let energeBox = creep.pos.findClosestByPath(energeBoxs);
                 if (creep.transfer(energeBox, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(energeBox, {
-                        visualizePathStyle: { stroke: "#ffffff" }
-                    });
+                    creep.moveTo(energeBox);
                 }
             }
         }
@@ -56,15 +47,11 @@ module.exports = function(creeps, room) {
             let target = findDropRes(room);
 
             if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
-                creep.moveTo(target, {
-                    visualizePathStyle: { stroke: "#ffffff" }
-                });
+                creep.moveTo(target);
             } else {
                 var targ = room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_CONTROLLER } })[0];
                 if (creep.upgradeController(targ) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targ, {
-                        visualizePathStyle: { stroke: "#ffffff" }
-                    });
+                    creep.moveTo(targ);
                 }
             }
         }
@@ -74,16 +61,12 @@ module.exports = function(creeps, room) {
             let target = findDropRes(room);
 
             if (creep.pickup(target) == ERR_NOT_IN_RANGE && creep.store[RESOURCE_ENERGY] == 0) {
-                creep.moveTo(target, {
-                    visualizePathStyle: { stroke: "#ffffff" }
-                });
+                creep.moveTo(target);
             } else {
                 var targs = room.find(FIND_CONSTRUCTION_SITES);
                 let targ = creep.pos.findClosestByPath(targs);
                 if (creep.build(targ) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targ, {
-                        visualizePathStyle: { stroke: "#ffffff" }
-                    });
+                    creep.moveTo(targ);
                 }
             }
         }
