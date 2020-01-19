@@ -33,5 +33,10 @@ module.exports = function(room) {
             let sourceContainer = room.memory.sourceContainers.find(sourceCont => sourceCont.idCreep == miner.id);
             if (sourceContainer) room.memory.sourceContainers.idCreep = sourceContainer.idCreep;
         }
+        // Если есть майнеры не назначенные для работы на контейнере, то найти их и назначить на соответствующий контейнер
+        if ((miner.memory.source = 0)) {
+            let sourceContainer = room.memory.sourceContainers.find(sourceCont => sourceCont.idCreep == 0);
+            if (sourceContainer) miner.memory.source = sourceContainer.idSource;
+        }
     });
 };

@@ -5,6 +5,7 @@ module.exports = function(creeps, room) {
     creeps.forEach(creep => {
         // Если крип типа майнер отправить копать энергию
         if (creep.memory.work.mine) {
+            //если начальная стадия и нет контейнера то просто копать на землю иначе идти к контейнеру и копать в него
             if (room.memory.sourceContainers) {
                 let container = room.memory.sourceContainer.find(sourceCont => sourceCont.idCreep == 0);
                 console.log(1);
